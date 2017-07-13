@@ -299,7 +299,14 @@ $(function() {
 
         $('body').html(localStorage.getItem(gameUUID + ' details'));
 
-        $('#score, #turnover, #undo').attr("disabled", true);
+        $('#score, #turnover, #halftime, #undo').parent().addClass("hidden");
+        $('#edit').parent().removeClass("hidden");
+        
+        $('#edit').on('click', function() {
+            $(this).parent().addClass("hidden");
+            $('#score, #turnover, #halftime, #undo').parent().removeClass("hidden");
+        })
+
 
     }
 
