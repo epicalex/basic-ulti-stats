@@ -42,16 +42,28 @@ $(function() {
 
     $("#gameTitle").blur(function() {
         $("#title").html($("#gameTitle").html() + ": " + $("#team1name").html() + " vs " + $("#team2name").html());
+        var gameUUID = $('#gameTitle').html();
+        var gameUUIDs = localStorage.getItem('gameUUIDs');
+        if (gameUUIDs !== null) {
+            gameUUIDs = gameUUID + ', ' + gameUUIDs;
+        } else {
+            gameUUIDs = gameUUID;
+        }
+        localStorage.setItem("gameUUIDs", gameUUIDs);
     });
 
     $("#team1name").blur(function() {
         $(".team1").html($("#team1name").html());
         $("#title").html($("#gameTitle").html() + ": " + $("#team1name").html() + " vs " + $("#team2name").html());
+        var gameUUID = $('#gameTitle').html();
+        localStorage.setItem(gameUUID + ' team1name', $(this).html());
     });
 
     $("#team2name").blur(function() {
         $(".team2").html($("#team2name").html());
         $("#title").html($("#gameTitle").html() + ": " + $("#team1name").html() + " vs " + $("#team2name").html());
+        var gameUUID = $('#gameTitle').html();
+        localStorage.setItem(gameUUID + ' team2name', $(this).html());
     });
 
     $("#turnover").click(function() {
@@ -145,6 +157,8 @@ $(function() {
         updateTable();
         inputs.push("score");
         $("#undo").attr("disabled", false);
+
+        localStorage.setItem($("#gameTitle").html() + ' details', $("body").html());
     });
 
     $("#halftime").click(function() {
@@ -184,6 +198,8 @@ $(function() {
         if (inputs.length === 0) {
             $("#undo").attr("disabled", true);
         }
+
+        localStorage.setItem($("#gameTitle").html() + ' details', $("body").html());
     });
 
     function changeTeamColour(team1hasdisc) {
@@ -262,6 +278,29 @@ $(function() {
         tableData.pop();
         $("#data").html(tableData.join(""));
         $("#halftime").attr("disabled", false);
+    }
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    if (window.location.href.indexOf('?gameUUID=') != -1) {
+        
+        var gameUUID = getUrlVars().gameUUID;
+        gameUUID = decodeURI(gameUUID);
+
+        $('body').html(localStorage.getItem(gameUUID + ' details'));
+
+        $('#score, #turnover, #undo').attr("disabled", true);
+
     }
 
     function updateTable() {
