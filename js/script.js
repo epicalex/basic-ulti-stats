@@ -146,7 +146,7 @@ $(function() {
 
         var newRow = "<tr><td class='" + team1Class + "'>" + entry.Team1Turns + "</td><td class='" + team1Class + "'>" + entry.Team1Side + "</td><td>" + entry.Team1Score + "-" + entry.Team2Score + "</td><td class='" + team2Class + "'>" + entry.Team2Side + "</td><td class='" + team2Class + "'>" + entry.Team2Turns + "</td></tr>";
         tableData.push(newRow);
-        $("#data").html(tableData.join(""));
+        $("#pointByPoint").append(newRow);
 
         team1HasDisc = !team1HasDisc;
         changeTeamColour(team1HasDisc);
@@ -171,7 +171,7 @@ $(function() {
         changeTeamColour(team1HasDisc);
 
         tableData.push("<tr><td colspan='5' class='half'>HALF</td></tr>");
-        $("#data").html(tableData.join(""));
+        $("#pointByPoint").append("<tr><td colspan='5' class='half'>HALF</td></tr>");
 
         $("#halftime").attr("disabled", true);
 
@@ -254,7 +254,7 @@ $(function() {
         team1ScoredLast.pop();
         scoretable.pop();
         tableData.pop();
-        $("#data").html(tableData.join(""));
+        $("#pointByPoint").find('tr').last().remove('tr');
         if (tableData.length == 1) {
             $("#halftime").attr("disabled", true);
         }
@@ -276,7 +276,7 @@ $(function() {
         }
 
         tableData.pop();
-        $("#data").html(tableData.join(""));
+        $("#pointByPoint").find('tr').last().remove('tr');
         $("#halftime").attr("disabled", false);
     }
 
