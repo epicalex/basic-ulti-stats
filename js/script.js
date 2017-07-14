@@ -216,7 +216,7 @@ $(function() {
         $("#pointByPoint").append(newRow);
 
         team1HasDisc = !team1HasDisc;
-        localStorage.setItem(gameUUID + ' inputs', team1HasDisc);
+        localStorage.setItem(gameUUID + ' team1HasDisc', team1HasDisc);
 
         changeTeamColour(team1HasDisc);
         resetTurnovers();
